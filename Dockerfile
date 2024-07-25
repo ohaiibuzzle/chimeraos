@@ -1,6 +1,7 @@
 FROM greyltc/archlinux-aur:latest
 LABEL contributor="shadowapex@gmail.com"
 COPY rootfs/etc/pacman.conf /etc/pacman.conf
+COPY rootfs/etc/makepkg.conf /etc/makepkg.conf
 COPY rootfs/etc/pacman.d/cachyos-mirrorlist /etc/pacman.d/cachyos-mirrorlist
 COPY rootfs/etc/pacman.d/cachyos-v3-mirrorlist /etc/pacman.d/cachyos-v3-mirrorlist
 COPY rootfs/etc/pacman.d/cachyos-v4-mirrorlist /etc/pacman.d/cachyos-v4-mirrorlist

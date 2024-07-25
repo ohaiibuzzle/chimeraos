@@ -102,6 +102,8 @@ sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf
 
 # update package databases
 pacman --noconfirm -Syy
+pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key F3B607488DB35A47
 
 # Avoid mkintcpio being auto-installed while installing the kernel (we want dracut)
 pacman -S --noconfirm dracut
