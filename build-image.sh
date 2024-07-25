@@ -52,8 +52,8 @@ cp /etc/makepkg.conf rootfs/etc/makepkg.conf
 
 # copy Cachy's repo over to the chroot
 cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-mirrorlist
-cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-v3-mirrorlist
-cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-v4-mirrorlist
+cp /etc/pacman.d/cachyos-v3-mirrorlist rootfs/etc/pacman.d/cachyos-v3-mirrorlist
+cp /etc/pacman.d/cachyos-v4-mirrorlist rootfs/etc/pacman.d/cachyos-v4-mirrorlist
 
 # bootstrap using our configuration
 pacstrap -K -C rootfs/etc/pacman.conf ${BUILD_PATH}

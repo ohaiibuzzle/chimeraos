@@ -1,19 +1,15 @@
 FROM greyltc/archlinux-aur:latest
 LABEL contributor="shadowapex@gmail.com"
-
-RUN pacman-key --init && \
-  pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com && \
-  pacman-key --lsign-key F3B607488DB35A47 && \
-  pacman --noconfirm -Syyuu && \
-  pacman --noconfirm -S ca-certificates
-
 COPY rootfs/etc/pacman.conf /etc/pacman.conf
 COPY rootfs/etc/pacman.d/cachyos-mirrorlist /etc/pacman.d/cachyos-mirrorlist
-COPY rootfs/etc/pacman.d/cachyos-mirrorlist /etc/pacman.d/cachyos-v3-mirrorlist
-COPY rootfs/etc/pacman.d/cachyos-mirrorlist /etc/pacman.d/cachyos-v4-mirrorlist
+COPY rootfs/etc/pacman.d/cachyos-v3-mirrorlist /etc/pacman.d/cachyos-v3-mirrorlist
+COPY rootfs/etc/pacman.d/cachyos-v4-mirrorlist /etc/pacman.d/cachyos-v4-mirrorlist
 RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.conf && \
   # Cannot check space in chroot
   sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
+  pacman-key --init && \
+  pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com && \
+  pacman-key --lsign-key F3B607488DB35A47 && \
   pacman --noconfirm -U \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-keyring-20240331-1-any.pkg.tar.zst' \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-mirrorlist-18-1-any.pkg.tar.zst'    \
