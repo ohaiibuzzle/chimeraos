@@ -9,14 +9,14 @@ RUN echo -e "keyserver-options auto-key-retrieve" >> /etc/pacman.d/gnupg/gpg.con
   sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf && \
   pacman-key --init && \
   pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com && \
-  pacman-key --lsign-key F3B607488DB35A47 \
+  pacman-key --lsign-key F3B607488DB35A47 && \
   pacman --noconfirm -Syyuu && \
-  pacman -U \
+  pacman --noconfirm -U \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-keyring-20240331-1-any.pkg.tar.zst' \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-mirrorlist-18-1-any.pkg.tar.zst'    \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v3-mirrorlist-18-1-any.pkg.tar.zst' \
   'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v4-mirrorlist-6-1-any.pkg.tar.zst'  \
-  'https://mirror.cachyos.org/repo/x86_64/cachyos/pacman-6.1.0-7-x86_64.pkg.tar.zst'          \
+  'https://mirror.cachyos.org/repo/x86_64/cachyos/pacman-6.1.0-7-x86_64.pkg.tar.zst'       && \
   pacman --noconfirm -S \
   arch-install-scripts \
   btrfs-progs \
