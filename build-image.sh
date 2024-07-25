@@ -50,8 +50,12 @@ btrfs subvolume create ${BUILD_PATH}
 # copy the makepkg.conf into chroot
 cp /etc/makepkg.conf rootfs/etc/makepkg.conf
 
-# bootstrap using our configuration
+# copy Cachy's repo over to the chroot
 cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-mirrorlist
+cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-v3-mirrorlist
+cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-v4-mirrorlist
+
+# bootstrap using our configuration
 pacstrap -K -C rootfs/etc/pacman.conf ${BUILD_PATH}
 
 # copy the builder mirror list into chroot
