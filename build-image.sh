@@ -51,6 +51,7 @@ btrfs subvolume create ${BUILD_PATH}
 cp /etc/makepkg.conf rootfs/etc/makepkg.conf
 
 # bootstrap using our configuration
+cp /etc/pacman.d/cachyos-mirrorlist rootfs/etc/pacman.d/cachyos-mirrorlist
 pacstrap -K -C rootfs/etc/pacman.conf ${BUILD_PATH}
 
 # copy the builder mirror list into chroot
@@ -310,6 +311,6 @@ else
 	echo "Local build, output IMG directly"
 	if [ -n "${OUTPUT_DIR}" ]; then
 		mkdir -p "${OUTPUT_DIR}"
-		mv ${SYSTEM_NAME}-${VERSION}.img ${OUTPUT_DIR}
+		mv ${SYSTEM_NAME}-${VERSION}-${CACHY_VARIANT}.img ${OUTPUT_DIR}
 	fi
 fi

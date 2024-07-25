@@ -12,6 +12,7 @@ export BUG_REPORT_URL="https://github.com/ChimeraOS/chimeraos/issues"
 
 export KERNEL_PACKAGE="linux-chimeraos"
 export KERNEL_PACKAGE_ORIGIN="local"
+export CACHY_VARIANT="x86_64-v3"
 
 export PACKAGES="\
 	accountsservice \
