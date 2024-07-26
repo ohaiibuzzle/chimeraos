@@ -122,7 +122,7 @@ export PACKAGES="\
 	nfs-utils \
 	noto-fonts-emoji \
 	nss-mdns \
-	nvidia \
+	nvidia-dkms \
 	opencl-nvidia \
 	lib32-opencl-nvidia \
 	nvidia-utils \
@@ -255,6 +255,7 @@ export SERVICES="\
 	inputplumber \
 	inputplumber-resume \
 	lightdm \
+	nvidia-powerd \
 	powerstation \
 	steam-powerbuttond \
 	sshd \
