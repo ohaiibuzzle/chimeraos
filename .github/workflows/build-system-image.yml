@@ -71,8 +71,8 @@ jobs:
       - name: Upload image to R2
         id: image_r2_upload
         env:
-          RCLONE_CONFIG_R2_TYPE: s3
-          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_TYPE: "s3"
+          RCLONE_CONFIG_R2_PROVIDER: "Cloudflare"
           RCLONE_CONFIG_R2_ENV_AUTH: true
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.RCLONE_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.RCLONE_SECRET_ACCESS_KEY }}
@@ -84,3 +84,7 @@ jobs:
       - name: Setup tmate session on failure
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 60
+        with:
+          limit-access-to-actor: true
+        
