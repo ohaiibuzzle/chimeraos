@@ -65,7 +65,17 @@ jobs:
           prerelease: true
           fail_on_unmatched_files: true
           files: |
-            output/${{ steps.build_image.outputs.image_filename }}
+            # output/${{ steps.build_image.outputs.image_filename }}
             output/build_info.txt
             output/sha256sum.txt
             output/container.txt
+      - name: Upload image to R2
+        id: image_r2_upload
+        uses: ryand56/r2-upload-action@latest
+        with:
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2-bucket: ${{ secrets.R2_BUCKET }}
+          source-dir: output/${{ steps.build_image.outputs.image_filename }}
+          destination-dir: ./
