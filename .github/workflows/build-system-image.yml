@@ -79,5 +79,8 @@ jobs:
           RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.RCLONE_ENDPOINT }}
           RCLONE_CONFIG_R2_NO_CHECK_BUCKET: true
         run: |
-          sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y rclone
-          rclone copy output/${{ steps.build_image.outputs.image_filename }} r2:cachymera-os/latest.img.tar.xz
+          sudo -v ; curl https://rclone.org/install.sh | sudo bash
+          rclone copy output/${{ steps.build_image.outputs.image_filename }} r2:cachymera-os/
+      - name: Setup tmate session on failure
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
