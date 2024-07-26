@@ -77,6 +77,7 @@ jobs:
           RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.RCLONE_ACCESS_KEY_ID }}
           RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.RCLONE_SECRET_ACCESS_KEY }}
           RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.RCLONE_ENDPOINT }}
+          RCLONE_CONFIG_R2_NO_CHECK_BUCKET: true
         run: |
-          sudo -v ; curl https://rclone.org/install.sh | sudo bash
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y rclone
           rclone copy output/${{ steps.build_image.outputs.image_filename }} r2:cachymera-os/latest.img.tar.xz
