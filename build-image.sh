@@ -11,17 +11,16 @@ fi
 BUILD_USER=${BUILD_USER:-}
 OUTPUT_DIR=${OUTPUT_DIR:-}
 
-
 source manifest
 
 if [ -z "${SYSTEM_NAME}" ]; then
-  echo "SYSTEM_NAME must be specified"
-  exit
+	echo "SYSTEM_NAME must be specified"
+	exit
 fi
 
 if [ -z "${VERSION}" ]; then
-  echo "VERSION must be specified"
-  exit
+	echo "VERSION must be specified"
+	exit
 fi
 
 DISPLAY_VERSION=${VERSION}
@@ -76,7 +75,6 @@ if [ -n "${PACKAGE_OVERRIDES}" ]; then
 	cp -rv /tmp/extra_pkgs/*.pkg.tar* ${BUILD_PATH}/own_pkgs
 fi
 
-
 # chroot into target
 mount --bind ${BUILD_PATH} ${BUILD_PATH}
 arch-chroot ${BUILD_PATH} /bin/bash <<EOF
@@ -100,10 +98,18 @@ sed -i '/ParallelDownloads/s/^/#/g' /etc/pacman.conf
 # Cannot check space in chroot
 sed -i '/CheckSpace/s/^/#/g' /etc/pacman.conf
 
-# update package databases
-pacman --noconfirm -Syy
+# reinstall Cachy's packages
 pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com
 pacman-key --lsign-key F3B607488DB35A47
+pacman --noconfirm -U \
+'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-keyring-20240331-1-any.pkg.tar.zst' \
+'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-mirrorlist-18-1-any.pkg.tar.zst'    \
+'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v3-mirrorlist-18-1-any.pkg.tar.zst' \
+'https://mirror.cachyos.org/repo/x86_64/cachyos/cachyos-v4-mirrorlist-6-1-any.pkg.tar.zst'  \
+'https://mirror.cachyos.org/repo/x86_64/cachyos/pacman-6.1.0-7-x86_64.pkg.tar.zst'
+
+# update package databases
+pacman --noconfirm -Syy
 
 # Avoid mkintcpio being auto-installed while installing the kernel (we want dracut)
 pacman -S --noconfirm dracut
@@ -264,9 +270,9 @@ btrfs filesystem defragment -r ${BUILD_PATH}
 cp -R rootfs/. ${BUILD_PATH}/
 rm -rf ${BUILD_PATH}/extra_certs
 
-echo "${SYSTEM_NAME}-${VERSION}" > ${BUILD_PATH}/build_info
-echo "" >> ${BUILD_PATH}/build_info
-cat ${BUILD_PATH}/manifest >> ${BUILD_PATH}/build_info
+echo "${SYSTEM_NAME}-${VERSION}" >${BUILD_PATH}/build_info
+echo "" >>${BUILD_PATH}/build_info
+cat ${BUILD_PATH}/manifest >>${BUILD_PATH}/build_info
 rm ${BUILD_PATH}/manifest
 
 # freeze archive date of build to avoid package drift on unlock
@@ -274,7 +280,7 @@ rm ${BUILD_PATH}/manifest
 if [ -z "${ARCHIVE_DATE}" ]; then
 	export TODAY_DATE=$(date +%Y/%m/%d)
 	echo "Server=https://archive.archlinux.org/repos/${TODAY_DATE}/\$repo/os/\$arch" > \
-	${BUILD_PATH}/etc/pacman.d/mirrorlist
+		${BUILD_PATH}/etc/pacman.d/mirrorlist
 fi
 
 btrfs subvolume snapshot -r ${BUILD_PATH} ${SNAP_PATH}
@@ -293,7 +299,7 @@ if [ -z "${NO_COMPRESS}" ]; then
 	tar -c -I'xz -8 -T4' -f ${IMG_FILENAME} ${SYSTEM_NAME}-${VERSION}.img
 	rm ${SYSTEM_NAME}-${VERSION}.img
 
-	sha256sum ${SYSTEM_NAME}-${VERSION}.img.tar.xz > sha256sum.txt
+	sha256sum ${SYSTEM_NAME}-${VERSION}.img.tar.xz >sha256sum.txt
 	cat sha256sum.txt
 
 	# Move the image to the output directory, if one was specified.
@@ -306,10 +312,10 @@ if [ -z "${NO_COMPRESS}" ]; then
 
 	# set outputs for github actions
 	if [ -f "${GITHUB_OUTPUT}" ]; then
-		echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-		echo "display_version=${DISPLAY_VERSION}" >> "${GITHUB_OUTPUT}"
-		echo "display_name=${SYSTEM_DESC}" >> "${GITHUB_OUTPUT}"
-		echo "image_filename=${IMG_FILENAME}" >> "${GITHUB_OUTPUT}"
+		echo "version=${VERSION}" >>"${GITHUB_OUTPUT}"
+		echo "display_version=${DISPLAY_VERSION}" >>"${GITHUB_OUTPUT}"
+		echo "display_name=${SYSTEM_DESC}" >>"${GITHUB_OUTPUT}"
+		echo "image_filename=${IMG_FILENAME}" >>"${GITHUB_OUTPUT}"
 	else
 		echo "No github output file set"
 	fi
