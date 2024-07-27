@@ -10,6 +10,13 @@ on:
         type: string
         description: Postfix used in release.
         default: ''
+    secrets:
+      RCLONE_ACCESS_KEY_ID:
+        required: true
+      RCLONE_SECRET_ACCESS_KEY:
+        required: true
+      RCLONE_ENDPOINT:
+        required: true
 
 jobs:
   build-system-image:
