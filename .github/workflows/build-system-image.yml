@@ -87,8 +87,7 @@ jobs:
           RCLONE_CONFIG_R2_NO_CHECK_BUCKET: true
         run: |
           sudo -v ; curl https://rclone.org/install.sh | sudo bash
-          mv "output/${{ steps.build_image.outputs.image_filename }}" image_latest.img.tar.xz
-          rclone copy image_latest.img.tar.xz r2:cachymera-os/
+          rclone copy "output/${{ steps.build_image.outputs.image_filename }}" r2:cachymera-os/
       - name: Setup tmate session on failure
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
